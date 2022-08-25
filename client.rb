@@ -3,13 +3,28 @@ require 'pry'
 
 class Client
   attr_reader :service, :credentials
-  def initialize
-        @service = Google::Apis::AnalyticsreportingV4::AnalyticsReportingService.new
-        @credentials = Google::Auth::ServiceAccountCredentials.make_creds(
-          json_key_io: File.open('keyfile.json'),
-          scope: "https://www.googleapis.com/auth/analytics.readonly"
-        )
-    end
+  attr_accessor :page_token
+
+  def initialize(page_token)
+    @service = Google::Apis::AnalyticsreportingV4::AnalyticsReportingService.new
+    @credentials = Google::Auth::ServiceAccountCredentials.make_creds(
+      json_key_io: File.open('keyfile.json'),
+      scope: "https://www.googleapis.com/auth/analytics.readonly"
+    )
+    @page_token = page_token
+  end
+
+  # Response from GA
+  def response
+    service.batch_get_reports(request)
+  end
+
+  # Get data from the response
+  def responses
+    response.reports.first.to_h
+  end
+
+  private
     
    # Set the date range - this is always required for report requests
   def date_range
@@ -48,6 +63,7 @@ class Client
       date_ranges: [date_range],
       metrics: [metric],
       dimensions: [dimension_path, dimension_title],
+      page_token: page_token,
       page_size: "1000"
     )
   end
@@ -59,17 +75,4 @@ class Client
       { report_requests: [report_request] }
     )
   end
-
-  # Response from GA
-  def response
-    service.batch_get_reports(request)
-  end
-
-  # Get data from the response
-  def responses
-    response.reports.first.to_h
-  end
 end
-
-client = Client.new
-client.responses
