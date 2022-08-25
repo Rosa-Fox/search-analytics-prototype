@@ -1,6 +1,7 @@
 require_relative 'client'
 require_relative 'normalise'
 require_relative 'rank'
+require_relative 'write_bulk'
 require 'pry'
 
 class Fetch
@@ -38,8 +39,13 @@ class Fetch
     rank = Rank.new(normalise, total_page_views)
     rank.relevance
   end
+
+  def write_bulk
+    write_bulk = WriteBulk.new(rank)
+    write_bulk.export
+  end
 end
 
 fetch = Fetch.new 
 fetch.get_ga_data("0")
-fetch.normalise
+fetch.write_bulk
