@@ -1,8 +1,9 @@
 require_relative 'client'
+require_relative 'normalise'
 require 'pry'
 
 class Fetch
-  attr_reader :client, :all_data
+  attr_accessor :client, :all_data
   def initialize
     @client = Client.new("0")
     @all_data = []
@@ -13,8 +14,8 @@ class Fetch
     client.service.authorization = client.credentials
 
     # Build up a collection of all data so that
-    # ranking will be calculated on all of the data
-    # not just per paginated page
+    # ranking can be calculated on all of the data
+    # not just per results on each individual page
     all_data << client.responses
 
     page_token = client.response.reports.first.to_h[:next_page_token]
@@ -25,7 +26,13 @@ class Fetch
       get_ga_data(page_token)
     end
   end
+
+  def normalise
+    normalise = Normalise.new(all_data)
+    normalise.normalise_data
+  end
 end
 
 fetch = Fetch.new 
 fetch.get_ga_data("0")
+fetch.normalise
