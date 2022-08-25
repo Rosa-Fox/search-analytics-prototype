@@ -1,5 +1,6 @@
 require_relative 'client'
 require_relative 'normalise'
+require_relative 'rank'
 require 'pry'
 
 class Fetch
@@ -30,6 +31,12 @@ class Fetch
   def normalise
     normalise = Normalise.new(all_data)
     normalise.normalise_data
+  end
+
+  def rank
+    total_page_views = client.response.reports.first.to_h[:data][:totals][0][:values][0]
+    rank = Rank.new(normalise, total_page_views)
+    rank.relevance
   end
 end
 
