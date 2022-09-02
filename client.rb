@@ -23,6 +23,14 @@ class Client
     response.reports.first.to_h
   end
 
+  def next_page_token
+    responses[:next_page_token]
+  end
+
+  def total_page_views
+    responses[:data][:totals][0][:values][0]
+  end
+
 private
     
    # Set the date range - this is always required for report requests
