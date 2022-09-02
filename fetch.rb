@@ -16,7 +16,7 @@ class Fetch
     # not just per results on each individual page
     all_data << client.responses
 
-    page_token = client.response.reports.first.to_h[:next_page_token]
+    page_token = client.next_page_token
 
     #Setting 4000 in development to get 4 pages of data
     #Easier to work with for now...
@@ -24,10 +24,6 @@ class Fetch
       get_ga_data(page_token)
     end
     all_data
-  end
-
-  def total_page_views
-    client.response.reports.first.to_h[:data][:totals][0][:values][0]
   end
 end
 
