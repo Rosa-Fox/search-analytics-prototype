@@ -1,5 +1,4 @@
 require 'google/apis/analyticsreporting_v4'
-require 'pry'
 
 class Client
   attr_reader :service, :credentials
@@ -24,7 +23,7 @@ class Client
     response.reports.first.to_h
   end
 
-  private
+private
     
    # Set the date range - this is always required for report requests
   def date_range

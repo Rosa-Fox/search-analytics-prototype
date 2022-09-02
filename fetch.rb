@@ -1,8 +1,4 @@
 require_relative 'client'
-require_relative 'normalise'
-require_relative 'rank'
-require_relative 'write_bulk'
-require 'pry'
 
 class Fetch
   attr_accessor :client, :all_data
@@ -27,25 +23,11 @@ class Fetch
     unless page_token > "4000"
       get_ga_data(page_token)
     end
+    all_data
   end
 
-  def normalise
-    normalise = Normalise.new(all_data)
-    normalise.normalise_data
-  end
-
-  def rank
-    total_page_views = client.response.reports.first.to_h[:data][:totals][0][:values][0]
-    rank = Rank.new(normalise, total_page_views)
-    rank.relevance
-  end
-
-  def write_bulk
-    write_bulk = WriteBulk.new(rank)
-    write_bulk.export
+  def total_page_views
+    client.response.reports.first.to_h[:data][:totals][0][:values][0]
   end
 end
 
-fetch = Fetch.new 
-fetch.get_ga_data("0")
-fetch.write_bulk

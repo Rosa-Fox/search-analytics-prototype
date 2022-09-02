@@ -1,5 +1,3 @@
-require_relative 'client'
-
 class Rank
   attr_accessor :data, :total_page_views
   def initialize(data, total_page_views)
