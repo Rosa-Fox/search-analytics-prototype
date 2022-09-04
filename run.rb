@@ -1,7 +1,9 @@
+require 'dotenv/load'
 require_relative 'fetch'
 require_relative 'rank'
 require_relative 'normalise'
 require_relative 'write_bulk'
+
 
 class Run
   attr_accessor :fetch

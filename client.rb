@@ -1,5 +1,5 @@
 require 'google/apis/analyticsreporting_v4'
-
+require 'pry'
 class Client
   attr_reader :service, :credentials
   attr_accessor :page_token
@@ -7,7 +7,6 @@ class Client
   def initialize(page_token)
     @service = Google::Apis::AnalyticsreportingV4::AnalyticsReportingService.new
     @credentials = Google::Auth::ServiceAccountCredentials.make_creds(
-      json_key_io: File.open('keyfile.json'),
       scope: "https://www.googleapis.com/auth/analytics.readonly"
     )
     @page_token = page_token
