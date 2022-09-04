@@ -1,0 +1,50 @@
+require_relative '../client'
+
+require 'pry'
+
+RSpec.describe Client, "#response" do 
+
+  let(:json_key) { { client_email: "test@test.com", private_key: "key" } }
+  let(:client) { client = Client.new("0") }
+
+  before do
+    @google_private_key = ENV['GOOGLE_PRIVATE_KEY']
+    ENV['GOOGLE_PRIVATE_KEY'] = "key"
+    @google_client_email = ENV['GOOGLE_CLIENT_EMAIL']
+    ENV['GOOGLE_CLIENT_EMAIL'] = "test@test.com"
+    allow(OpenSSL::PKey::RSA).to receive(:new).and_return("key")
+  end
+
+  after do
+    ENV["GOOGLE_PRIVATE_KEY"] = @google_private_key
+    ENV["GOOGLE_CLIENT_EMAIL"] = @google_client_email
+  end
+
+  context "initialize" do
+    it "creates a service" do
+      expect(client.service).to be_a(Google::Apis::AnalyticsreportingV4::AnalyticsReportingService)
+    end
+
+    it "creates a page token" do
+      expect(client.page_token).to eq("0")
+    end
+
+    it "creates credentials" do
+      expect(client.credentials).to be_a(Google::Auth::ServiceAccountCredentials)
+    end
+  end
+
+  context "setting up authorization" do
+    it "uses the given client email from the json key" do
+      expect(client.credentials.issuer).to eq("test@test.com")
+    end
+
+    it "uses the given private key the json key" do
+      expect(client.credentials.signing_key).to eq("key")
+    end
+
+    it "uses the given scope" do
+      expect(client.credentials.scope).to eq(["https://www.googleapis.com/auth/analytics.readonly"])
+    end
+  end
+end
