@@ -1,9 +1,7 @@
-require_relative '../client'
-
+require_relative '../google_analytics_client/client'
 require 'pry'
 
-RSpec.describe Client, "#response" do 
-
+RSpec.describe Client do
   let(:json_key) { { client_email: "test@test.com", private_key: "key" } }
   let(:client) { client = Client.new("0") }
 

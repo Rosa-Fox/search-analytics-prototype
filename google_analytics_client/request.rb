@@ -1,38 +1,7 @@
-require 'google/apis/analyticsreporting_v4'
-require 'pry'
-class Client
-  attr_reader :service, :credentials
-  attr_accessor :page_token
-
-  def initialize(page_token)
-    @service = Google::Apis::AnalyticsreportingV4::AnalyticsReportingService.new
-    @credentials = Google::Auth::ServiceAccountCredentials.make_creds(
-      scope: "https://www.googleapis.com/auth/analytics.readonly"
-    )
-    @page_token = page_token
-  end
-
-  # Response from GA
-  def response
-    service.batch_get_reports(request)
-  end
-
-  # Get data from the response
-  def responses
-    response.reports.first.to_h
-  end
-
-  def next_page_token
-    responses[:next_page_token]
-  end
-
-  def total_page_views
-    responses[:data][:totals][0][:values][0]
-  end
-
-private
-    
+module Request
    # Set the date range - this is always required for report requests
+
+  private 
   def date_range
     Google::Apis::AnalyticsreportingV4::DateRange.new(
       start_date: "2022-08-21",

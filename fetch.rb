@@ -1,4 +1,4 @@
-require_relative 'client'
+require_relative 'google_analytics_client/client'
 
 class Fetch
   attr_accessor :client, :all_data
