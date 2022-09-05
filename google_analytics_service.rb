@@ -2,7 +2,7 @@ require_relative 'google_analytics_client/client'
 require_relative 'google_analytics_client/request'
 require_relative 'google_analytics_client/response'
 
-class Fetch
+class GoogleAnalyticsService
   attr_accessor :client, :all_data
   def initialize
     @client = Client.new
