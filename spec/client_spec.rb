@@ -3,7 +3,7 @@ require 'pry'
 
 RSpec.describe Client do
   let(:json_key) { { client_email: "test@test.com", private_key: "key" } }
-  let(:client) { client = Client.new }
+  let(:client) { Client.new }
 
   before do
     @google_private_key = ENV['GOOGLE_PRIVATE_KEY']
