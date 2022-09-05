@@ -1,13 +1,14 @@
+require 'pry'
 class Response
   # Response from GA
-  attr_reader :response
-  def initialize(response)
-    @response = response
+  attr_reader :ga_response
+  def initialize(ga_response)
+    @ga_response = ga_response
   end
 
   # Get data from the response
   def responses
-    response.reports.first.to_h
+    ga_response.reports.first.to_h
   end
 
   def next_page_token
