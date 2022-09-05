@@ -15,7 +15,7 @@ class Run
   def export_data  
     all_data = fetch.get_ga_data("0")
     
-    ranked_data = rank(normalise(all_data), fetch.client.total_page_views)
+    ranked_data = rank(normalise(all_data), fetch.response("0").total_page_views)
 
     write_bulk(ranked_data)
   end

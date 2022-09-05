@@ -1,7 +1,8 @@
-module Response
+class Response
   # Response from GA
-  def response
-    service.batch_get_reports(request)
+  attr_reader :response
+  def initialize(response)
+    @response = response
   end
 
   # Get data from the response

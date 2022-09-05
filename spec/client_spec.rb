@@ -3,7 +3,7 @@ require 'pry'
 
 RSpec.describe Client do
   let(:json_key) { { client_email: "test@test.com", private_key: "key" } }
-  let(:client) { client = Client.new("0") }
+  let(:client) { client = Client.new }
 
   before do
     @google_private_key = ENV['GOOGLE_PRIVATE_KEY']
@@ -21,10 +21,6 @@ RSpec.describe Client do
   context "initialize" do
     it "creates a service" do
       expect(client.service).to be_a(Google::Apis::AnalyticsreportingV4::AnalyticsReportingService)
-    end
-
-    it "creates a page token" do
-      expect(client.page_token).to eq("0")
     end
 
     it "creates credentials" do
