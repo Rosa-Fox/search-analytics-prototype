@@ -41,7 +41,6 @@ RSpec.describe GoogleAnalyticsService do
     @google_client_email = ENV['GOOGLE_CLIENT_EMAIL']
     ENV['GOOGLE_CLIENT_EMAIL'] = "test@test.com"
     allow(OpenSSL::PKey::RSA).to receive(:new).and_return("key")
-    # allow(subject).to receive(:client).and_return(google_client)
   end
 
   after do
@@ -69,5 +68,11 @@ RSpec.describe GoogleAnalyticsService do
       expect(google_analytics_service.response("0")).to be_a Response
       expect(google_analytics_service.response("0").ga_response.reports[0].data.rows.first.dimensions).to eql(["/"])
     end
+  end
+
+  context "#get_ga_data" do
+    it "returns responses from all pages" do
+      #
+    end 
   end
 end
