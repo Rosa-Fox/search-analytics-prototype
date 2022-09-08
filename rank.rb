@@ -8,7 +8,7 @@ class Rank
   def relevance  
     # Setting to first 5 temporarily for development
     formatted = []
-    data.first(5).each.with_index(1) do |value, index| 
+    data.each.with_index(1) do |value, index| 
        path =  {
         index: { 
           _type: "page-traffic", 

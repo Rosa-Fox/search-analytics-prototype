@@ -6,7 +6,8 @@ class WriteBulk
   end
 
   def export  
-    File.open("page-traffic.dump", "w+") do |f|
+    puts "exporting"
+    File.open("all-page-traffic.dump", "w+") do |f|
       data.each { |element| f.puts(element) }
     end
   end
