@@ -1,21 +1,21 @@
 require 'dotenv/load'
-require_relative 'fetch'
+require_relative 'google_analytics_service'
 require_relative 'rank'
 require_relative 'normalise'
 require_relative 'write_bulk'
 
 
 class Run
-  attr_accessor :fetch
+  attr_accessor :google_analytics_service
 
   def initialize
-    @fetch = Fetch.new
+    @google_analytics_service = GoogleAnalyticsService.new
   end
 
   def export_data  
-    all_data = fetch.get_ga_data("0")
+    all_data = google_analytics_service.get_ga_data("0")
     
-    ranked_data = rank(normalise(all_data), fetch.client.total_page_views)
+    ranked_data = rank(normalise(all_data), google_analytics_service.response("0").total_page_views)
 
     write_bulk(ranked_data)
   end
